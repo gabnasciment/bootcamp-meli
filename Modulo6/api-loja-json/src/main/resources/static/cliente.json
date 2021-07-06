@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "nome": "gabriel",
+    "cpf": "436573673",
+    "email": "biel@gmail.com",
+    "telefone": "3442424",
+    "pedidos": [
+    ]
+  }
+]
