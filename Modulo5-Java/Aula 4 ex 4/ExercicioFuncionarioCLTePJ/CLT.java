@@ -1,4 +1,3 @@
-package ExercicioFuncionarioCLTePJ;
 
 import java.util.Scanner;
 

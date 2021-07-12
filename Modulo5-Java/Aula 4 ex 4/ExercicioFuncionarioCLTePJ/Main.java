@@ -1,4 +1,4 @@
-package ExercicioFuncionarioCLTePJ;
+
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -9,7 +9,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         CLT tecnico = new CLT();
-        PJ funcionario = new PJ();
+        ExercicioFuncionarioCLTePJ.PJ funcionario = new ExercicioFuncionarioCLTePJ.PJ();
 
 
         char cargo,simOuNao;

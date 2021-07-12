@@ -15,23 +15,37 @@ public class PedidoController {
 
     private PedidoService pedidoService;
 
+    public PedidoController(PedidoService pedidoService){
+        this.pedidoService = pedidoService;
+    }
+
     @GetMapping
+    @ResponseStatus(code = HttpStatus.OK)
     public List<Pedido> getPedidos(){
-        return pedidoService.getTodosPedidos();
+        return this.pedidoService.getTodosPedidos();
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(code = HttpStatus.OK)
     public Pedido getPedido(@PathVariable Long id){
-        return this.pedidoService.getPedido(id);
+        Pedido pedido = null;
+        try{
+            pedido = this.pedidoService.getPedido(id);
+        } catch (RuntimeException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+        return pedido;
     }
 
     @PostMapping
-    public void postPedido(@RequestBody Pedido pedido){
-        pedidoService.postCliente(pedido);
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public Pedido postPedido(@RequestBody Pedido pedido){
+        return this.pedidoService.addPedido(pedido);
     }
 
-    @PutMapping("/{id}")
-    public Pedido putPedido(@PathVariable int id, @RequestBody Pedido pedido){
+    @PutMapping("{id}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Pedido putPedido(@PathVariable Long id,@RequestBody Pedido pedido){
         Pedido p = null;
         try{
             p = this.pedidoService.putPedido(id, pedido);
@@ -42,11 +56,13 @@ public class PedidoController {
     }
 
     @DeleteMapping("{id}")
-    public void removePedido(@PathVariable long id){
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deletePedido(@PathVariable Long id){
         try{
-            this.pedidoService.removePedido(id);
+            this.pedidoService.deletePedido(id);
         } catch (RuntimeException e){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
     }
+
 }
