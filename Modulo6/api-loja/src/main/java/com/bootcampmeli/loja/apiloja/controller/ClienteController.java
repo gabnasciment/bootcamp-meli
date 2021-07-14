@@ -4,6 +4,7 @@ import com.bootcampmeli.loja.apiloja.dtos.ClienteDTO;
 import com.bootcampmeli.loja.apiloja.services.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,7 +27,11 @@ public class ClienteController {
     @GetMapping("/{id}")
     @ResponseStatus(code = HttpStatus.OK)
     public ClienteDTO getCliente(@PathVariable long id){
-        return this.clienteService.findOne(id);
+        try {
+            return this.clienteService.findOne(id);
+        } catch (RuntimeException ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
+        }
     }
 
 
