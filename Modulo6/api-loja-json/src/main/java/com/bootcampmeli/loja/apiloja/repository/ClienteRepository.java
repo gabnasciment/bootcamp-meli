@@ -24,7 +24,7 @@ public class ClienteRepository {
 
            this.clientes = Arrays.asList(mapper.readValue(file, Cliente[].class));
        } catch (Exception e) {
-           System.err.println("O arquivo não foi encontrado\n"+e.getMessage());
+           System.err.println("O arquivo não foi encontrado "+e.getMessage());
        }
    }
 
@@ -41,9 +41,9 @@ public class ClienteRepository {
     }
 
     public void postCliente(Cliente cliente){
-       if(cliente.getNome().length() <  2){
+       if(cliente.getNome().length() <  2)
            throw new RuntimeException("O cliente deve ter no minimo 3 caracteres.");
-       }
+
        clientes.add(cliente);
     }
 
