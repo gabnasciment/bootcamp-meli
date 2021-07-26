@@ -1,12 +1,14 @@
 package com.bootcampmeli.restaurante.restaurante.repository;
 
 import com.bootcampmeli.restaurante.restaurante.entity.Pedido;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.ResourceUtils;
+
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.util.*;
 
 @Repository
@@ -15,16 +17,24 @@ public class PedidoRepository {
     private Map<Long, Pedido> pedidosMap;
     private List<Pedido> pedidos = new ArrayList<>();
     private static Long autoIncrementId = 0L;
+    private static final String jsonPath = "src/main/resources/static/restaurante.json";
+
 
     public PedidoRepository() throws Exception {
         this.pedidosMap = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
-        try{
-            File file = new File("src/main/resources/static/restaurante.json");
+        mapper.registerModule(new JavaTimeModule());
 
-            this.pedidos = Arrays.asList(mapper.readValue(file, Pedido[].class));
+
+        try{
+            FileInputStream fileInputStream = new FileInputStream(jsonPath);
+            TypeReference<List<Pedido>> typeReference = new TypeReference<>(){};
+
+            this.pedidos = mapper.readValue(fileInputStream, typeReference);
+            fileInputStream.close();
         } catch (Exception ex){
-            System.err.println("Não conseguiu abrir o arquivo."+ ex.getMessage());
+           // System.err.println("Não conseguiu abrir o arquivo."+ ex.getMessage());
+            throw new RuntimeException("The file could not be opened.");
         }
     }
 

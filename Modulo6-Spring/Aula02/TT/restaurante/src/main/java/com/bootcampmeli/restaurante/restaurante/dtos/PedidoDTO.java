@@ -9,14 +9,12 @@ public class PedidoDTO {
 
     private int mesa;
     private List<PratoDTO> pratos;
-    private double valorTotal;
 
     public PedidoDTO(){}
 
     public PedidoDTO(int mesa, List<PratoDTO> pratos, double valorTotal) {
         this.mesa = mesa;
         this.pratos = pratos;
-        this.valorTotal = valorTotal;
     }
 
     public int getMesa() {
@@ -25,10 +23,6 @@ public class PedidoDTO {
 
     public List<PratoDTO> getPratos() {
         return pratos;
-    }
-
-    public double getValorTotal() {
-        return valorTotal;
     }
 
     public static List<PedidoDTO> convert(List<Pedido> pedidos) {

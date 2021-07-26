@@ -1,12 +1,15 @@
 package com.bootcampmeli.loja.apiloja.services;
 
 import com.bootcampmeli.loja.apiloja.dtos.ClienteDTO;
+import com.bootcampmeli.loja.apiloja.dtos.PedidoDTO;
 import com.bootcampmeli.loja.apiloja.entity.Cliente;
+import com.bootcampmeli.loja.apiloja.entity.Pedido;
 import com.bootcampmeli.loja.apiloja.interfaces.ClienteRepository;
 import com.bootcampmeli.loja.apiloja.interfaces.ClienteServiceDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -31,6 +34,12 @@ public class ClienteService implements ClienteServiceDTO {
         Cliente cliente = this.clienteRepository.findOne(id);
         ClienteDTO clienteDTO = ClienteDTO.convert(cliente);
         return clienteDTO;
+    }
+
+    public List<PedidoDTO> getPedidos(long id){
+        ClienteDTO cliente = findOne(id);
+        List<PedidoDTO>  pedidos = cliente.getPedidos();
+        return pedidos;
     }
 
 }

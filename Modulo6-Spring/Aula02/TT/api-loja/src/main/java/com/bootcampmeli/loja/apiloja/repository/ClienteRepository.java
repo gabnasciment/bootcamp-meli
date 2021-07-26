@@ -2,6 +2,7 @@ package com.bootcampmeli.loja.apiloja.repository;
 
 
 
+import com.bootcampmeli.loja.apiloja.dtos.PedidoDTO;
 import com.bootcampmeli.loja.apiloja.entity.Cliente;
 import com.bootcampmeli.loja.apiloja.entity.Pedido;
 import com.bootcampmeli.loja.apiloja.entity.Produto;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ClienteRepository  implements com.bootcampmeli.loja.apiloja.interfaces.ClienteRepository {
@@ -40,12 +42,18 @@ public class ClienteRepository  implements com.bootcampmeli.loja.apiloja.interfa
     public Cliente findOne(long id) throws RuntimeException {
         Optional<Cliente> op = this.clientes.stream().filter( x -> x.getId() == id).findFirst();
         if(op.isPresent()){
-            return op.get();
+           return op.get();
         }
         throw new RuntimeException("Este id "+id+" Não foi achado.");
     }
 
     public List<Cliente> getClientes(){
        return this.clientes;
+    }
+
+    public List<PedidoDTO> getPedidos(long id){
+       Cliente cliente = findOne(id);
+       List<Pedido>  pedidos = cliente.getPedidos();
+       return pedidos.stream().map(p -> PedidoDTO.convert(p)).collect(Collectors.toList());
     }
 }

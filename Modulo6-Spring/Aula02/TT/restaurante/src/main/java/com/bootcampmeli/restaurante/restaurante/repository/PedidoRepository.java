@@ -14,7 +14,6 @@ public class PedidoRepository implements com.bootcampmeli.restaurante.restaurant
     private List<Pedido> pedidos = new ArrayList<>();
 
     public PedidoRepository(){
-
         List<Prato> pratos1 = List.of(
                 new Prato(1L,20, "Strognoff de frango", 4),
                 new Prato(2L,40, "Strognoff de carne", 2),

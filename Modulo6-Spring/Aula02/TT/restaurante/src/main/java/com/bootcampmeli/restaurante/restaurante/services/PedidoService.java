@@ -4,7 +4,9 @@ import com.bootcampmeli.restaurante.restaurante.dtos.PedidoDTO;
 import com.bootcampmeli.restaurante.restaurante.dtos.PratoDTO;
 import com.bootcampmeli.restaurante.restaurante.entity.Pedido;
 import com.bootcampmeli.restaurante.restaurante.repository.PedidoRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -26,14 +28,25 @@ public class PedidoService implements com.bootcampmeli.restaurante.restaurante.I
 
     @Override
     public PedidoDTO findOne(long id) throws RuntimeException {
-        Pedido pedido = this.pedidoRepository.finOne(id);
+        Pedido pedido = null;
+        try{
+            pedido = this.pedidoRepository.finOne(id);
+        } catch (RuntimeException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
         PedidoDTO pedidoDTO = PedidoDTO.convert(pedido);
         return pedidoDTO;
     }
 
     @Override
     public double getValorTotal(long id) throws RuntimeException {
-        return this.pedidoRepository.getValorTotal(id);
+        double valorTotal = 0.0;
+        try{
+            valorTotal = this.pedidoRepository.getValorTotal(id);
+        } catch (RuntimeException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+        return valorTotal;
     }
 
     @Override

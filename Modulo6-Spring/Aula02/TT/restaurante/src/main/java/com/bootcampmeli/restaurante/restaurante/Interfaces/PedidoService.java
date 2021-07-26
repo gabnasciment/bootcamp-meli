@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface PedidoService {
 
-    public List<PedidoDTO> findAll();
-    public PedidoDTO findOne(long id);
-    public double getValorTotal(long id);
-    public PratoDTO getValor(long id);
+    List<PedidoDTO> findAll();
+    PedidoDTO findOne(long id);
+    double getValorTotal(long id);
+    PratoDTO getValor(long id);
 }
