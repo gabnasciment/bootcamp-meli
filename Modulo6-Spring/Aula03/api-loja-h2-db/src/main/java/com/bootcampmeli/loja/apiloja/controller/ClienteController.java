@@ -5,12 +5,11 @@ import com.bootcampmeli.loja.apiloja.entity.Cliente;
 import com.bootcampmeli.loja.apiloja.services.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;
@@ -20,29 +19,19 @@ public class ClienteController {
     }
 
     @GetMapping
-    @ResponseStatus(code = HttpStatus.OK)
     public List<ClienteDTO> getClientes(){
-       return this.clienteService.getTodosClientes();
+        return this.clienteService.getClientes();
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(code = HttpStatus.OK)
-    public ClienteDTO getCliente(@PathVariable long id){
-        try {
-            return this.clienteService.getCliente(id);
-        } catch (RuntimeException ex){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, ex.getMessage());
-        }
-
+    @GetMapping("{idCliente}")
+    public ClienteDTO getCliente(@PathVariable Long idCliente){
+        return this.clienteService.getCliente(idCliente);
     }
 
     @PostMapping
-    @ResponseStatus(code = HttpStatus.CREATED)
-    public void postCliente(@RequestBody Cliente cliente){
-        clienteService.postCliente(cliente);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClienteDTO postCliente(@RequestBody Cliente cliente){
+        this.clienteService.postCliente(cliente);
+        return ClienteDTO.convert(cliente);
     }
-
-
-
-
 }

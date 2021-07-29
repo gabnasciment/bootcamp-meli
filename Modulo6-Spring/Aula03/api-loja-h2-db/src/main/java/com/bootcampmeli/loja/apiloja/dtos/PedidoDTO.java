@@ -5,15 +5,18 @@ import com.bootcampmeli.loja.apiloja.entity.Produto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PedidoDTO {
 
+    private Long id;
     private List<ProdutoDTO> produtos;
     private double valorTotal;
 
     public PedidoDTO() {}
 
-    public PedidoDTO(List<ProdutoDTO> produtos, double valorTotal) {
+    public PedidoDTO(Long id, List<ProdutoDTO> produtos, double valorTotal) {
+        this.id = id;
         this.produtos = produtos;
         this.valorTotal = valorTotal;
     }
@@ -26,16 +29,13 @@ public class PedidoDTO {
         return valorTotal;
     }
 
-    public static List<PedidoDTO> convert (List<Pedido> pedidos){
-        List<PedidoDTO> pedidosDTO = new ArrayList<>();
-        for(Pedido pedido : pedidos){
-            pedidosDTO.add(new PedidoDTO(ProdutoDTO.convert(pedido.getProdutos()), pedido.getValorTotal()));
-        }
-        return pedidosDTO;
+    public Long getId() {
+        return id;
     }
 
     public static PedidoDTO convert(Pedido pedido){
-        return new PedidoDTO(ProdutoDTO.convert(pedido.getProdutos()), pedido.getValorTotal());
+        List<ProdutoDTO> produtos = pedido.getProdutos().stream().map(oi -> ProdutoDTO.toDTO(oi)).collect(Collectors.toList());
+        return new PedidoDTO(pedido.getId(), produtos, pedido.getValorTotal());
     }
 
 

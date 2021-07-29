@@ -1,23 +1,30 @@
 package com.bootcampmeli.loja.apiloja.entity;
 
+import javax.persistence.*;
+
+@Entity
 public class Produto {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String desc;
     private String cor;
     private Integer quantidade;
     private double preco;
-    private static Long universalId = 0L;
+
+    @ManyToOne
+    @JoinColumn
+    private Pedido pedido;
 
     public Produto () {}
 
-    public Produto(Long id, String desc, String cor, Integer quantidade, double preco) {
-        this.id = id;
+    public Produto(String desc, String cor, Integer quantidade, double preco, Pedido pedido) {
         this.desc = desc;
         this.cor = cor;
         this.quantidade = quantidade;
         this.preco = preco;
-        this.id = universalId++;
+        this.pedido = pedido;
     }
 
     public Long getId() {
@@ -38,5 +45,29 @@ public class Produto {
 
     public double getPreco() {
         return preco;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
     }
 }

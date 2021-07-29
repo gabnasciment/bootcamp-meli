@@ -1,28 +1,34 @@
 package com.bootcampmeli.loja.apiloja.entity;
 
-
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Cliente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String cpf;
     private String email;
     private String telefone;
-    private List<Pedido> pedidos;
-    private static Long universalId = 0L;
 
-    public Cliente(){ }
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Pedido> pedidos = new ArrayList<>();
 
-    public Cliente(Long id, String nome, String cpf, String email, String telefone, List<Pedido> pedidos) {
-        this.id = id;
+    public Cliente() {}
+
+    public Cliente(String nome, String cpf, String email, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-        this.pedidos = pedidos;
-        this.id = universalId++;
+    }
+
+    public void addPedido(Pedido pedido){
+        this.pedidos.add(pedido);
     }
 
     public Long getId() {

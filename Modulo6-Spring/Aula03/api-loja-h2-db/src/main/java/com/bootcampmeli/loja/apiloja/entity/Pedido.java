@@ -1,24 +1,39 @@
 package com.bootcampmeli.loja.apiloja.entity;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Pedido {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private List<Produto> produtos;
+
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.ALL)
+    private List<Produto> produtos = new ArrayList<>();
+
     private double valorTotal;
-    private static Long universalId = 0L;
 
-    public Pedido() {}
+    @ManyToOne
+    @JoinColumn
+    private Cliente cliente;
 
-    public Pedido(long id, List<Produto> produtos, double valorTotal) {
-        this.id = id;
-        this.produtos = produtos;
-        this.valorTotal = valorTotal;
-        this.id = universalId++;
+    public Pedido(){}
+
+    public Pedido(Cliente cliente) {
+        this.cliente = cliente;
+        this.valorTotal = 0;
     }
 
-    public Long getId() {
+    public void addProduto(Produto produto){
+        this.produtos.add(produto);
+        double valorTotal = produto.getPreco() * produto.getQuantidade();
+        this.valorTotal += valorTotal;
+    }
+
+    public long getId() {
         return id;
     }
 
@@ -30,15 +45,7 @@ public class Pedido {
         return valorTotal;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
-    }
-
-    public void setValorTotal(double valorTotal) {
-        this.valorTotal = valorTotal;
+    public Cliente getCliente() {
+        return cliente;
     }
 }

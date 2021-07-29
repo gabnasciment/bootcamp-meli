@@ -1,24 +1,27 @@
 package com.bootcampmeli.loja.apiloja.dtos;
 
-import com.bootcampmeli.loja.apiloja.entity.Produto;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class ProdutoDTO {
+public class UpsertProdutoDTO {
 
     private String desc;
     private String cor;
     private Integer quantidade;
     private double preco;
+    private Long idPedido;
 
-    public ProdutoDTO () {}
+    public UpsertProdutoDTO() {
+    }
 
-    public ProdutoDTO(String desc, String cor, Integer quantidade, double preco) {
+    public UpsertProdutoDTO(
+            String desc,
+            String cor,
+            Integer quantidade,
+            double preco,
+            Long idpedido) {
         this.desc = desc;
         this.cor = cor;
         this.quantidade = quantidade;
         this.preco = preco;
+        idPedido = idpedido;
     }
 
     public String getDesc() {
@@ -37,8 +40,7 @@ public class ProdutoDTO {
         return preco;
     }
 
-    public static ProdutoDTO toDTO(Produto produto){
-        return new ProdutoDTO(produto.getDesc(),produto.getCor(),produto.getQuantidade(), produto.getPreco());
+    public Long getIdPedido() {
+        return idPedido;
     }
-
 }
